@@ -1,0 +1,31 @@
+﻿# Dependencies
+node_modules/
+.wrangler/
+
+# Environment
+.env
+.env.local
+.dev.vars
+
+# Build
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Secrets (NEVER commit)
+**/secrets/
+*.pem
+*.key
+service-account*.json
