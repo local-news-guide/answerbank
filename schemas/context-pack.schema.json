@@ -1,0 +1,153 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://answerbank.example.com/schemas/context-pack.schema.json",
+  "title": "ContextPack",
+  "description": "Generated bundle of verified answers for LLM consumption",
+  "type": "object",
+  "required": ["pack_metadata", "instructions", "platforms", "answers"],
+  "properties": {
+    "pack_metadata": {
+      "type": "object",
+      "required": ["pack_id", "pack_name", "version", "generated_at", "content_hash", "answer_count"],
+      "properties": {
+        "pack_id": {
+          "type": "string",
+          "pattern": "^pack_[a-zA-Z0-9]+$"
+        },
+        "pack_name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Semantic version"
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "platform_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "answer_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verified_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unknown_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "instructions": {
+      "type": "object",
+      "required": ["usage", "citation_required", "unknown_handling"],
+      "properties": {
+        "usage": {
+          "type": "string"
+        },
+        "citation_required": {
+          "type": "boolean"
+        },
+        "unknown_handling": {
+          "type": "string"
+        },
+        "confidence_levels": {
+          "type": "object",
+          "properties": {
+            "confirmed": { "type": "string" },
+            "likely": { "type": "string" },
+            "uncertain": { "type": "string" },
+            "unknown": { "type": "string" }
+          }
+        }
+      }
+    },
+    "platforms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platform_id", "platform_name", "vendor"],
+        "properties": {
+          "platform_id": { "type": "string" },
+          "platform_name": { "type": "string" },
+          "vendor": { "type": "string" },
+          "documentation_url": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["answer_id", "platform_id", "question_id", "question_text", "question_short", "category", "answer_value", "confidence", "status"],
+        "properties": {
+          "answer_id": { "type": "string" },
+          "platform_id": { "type": "string" },
+          "question_id": { "type": "string" },
+          "question_text": { "type": "string" },
+          "question_short": { "type": "string" },
+          "category": { "type": "string" },
+          "answer_value": { "type": "string" },
+          "answer_normalized": { "type": ["string", "null"] },
+          "answer_detail": { "type": ["string", "null"] },
+          "confidence": { "type": "string" },
+          "source_type": { "type": "string" },
+          "source_url": { "type": ["string", "null"] },
+          "source_excerpt": { "type": ["string", "null"] },
+          "caveats": { "type": ["string", "null"] },
+          "evidence_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "verified_at": { "type": ["string", "null"] },
+          "verified_by": { "type": ["string", "null"] },
+          "verification_method": { "type": ["string", "null"] },
+          "expires_at": { "type": ["string", "null"] },
+          "status": { "type": "string" }
+        }
+      }
+    },
+    "unknown_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["answer_id", "platform_id", "question_id", "question_text", "do_not_assume"],
+        "properties": {
+          "answer_id": { "type": "string" },
+          "platform_id": { "type": "string" },
+          "question_id": { "type": "string" },
+          "question_text": { "type": "string" },
+          "question_short": { "type": "string" },
+          "category": { "type": "string" },
+          "evidence_requirements": { "type": ["string", "null"] },
+          "do_not_assume": { "type": "boolean", "const": true }
+        }
+      }
+    },
+    "evidence_manifest": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidence_id": { "type": "string" },
+          "platform_id": { "type": "string" },
+          "evidence_type": { "type": "string" },
+          "title": { "type": "string" },
+          "storage_url": { "type": ["string", "null"] },
+          "captured_at": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

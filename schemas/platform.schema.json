@@ -1,0 +1,73 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://answerbank.example.com/schemas/platform.schema.json",
+  "title": "Platform",
+  "description": "A platform or product being documented in AnswerBank",
+  "type": "object",
+  "required": ["platform_id", "platform_name", "vendor", "platform_type", "status"],
+  "properties": {
+    "platform_id": {
+      "type": "string",
+      "pattern": "^plat_[a-z0-9_]+$",
+      "description": "Unique identifier for the platform"
+    },
+    "platform_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Display name of the platform"
+    },
+    "vendor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Company or organization that owns the platform"
+    },
+    "platform_type": {
+      "type": "string",
+      "enum": ["saas", "api", "library", "infrastructure", "other"],
+      "description": "Category of platform"
+    },
+    "documentation_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "URL to official documentation"
+    },
+    "support_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "URL to support portal"
+    },
+    "api_base_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Base URL for API endpoints"
+    },
+    "version_tracked": {
+      "type": ["string", "null"],
+      "description": "Version of the platform being documented"
+    },
+    "last_verified_date": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Date platform information was last verified"
+    },
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Internal notes"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "deprecated", "archived"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,112 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://answerbank.example.com/schemas/evidence.schema.json",
+  "title": "Evidence",
+  "description": "Supporting evidence for an answer",
+  "type": "object",
+  "required": ["evidence_id", "platform_id", "evidence_type", "file_name", "storage_path", "mime_type", "file_hash", "title", "captured_at", "captured_by", "status"],
+  "properties": {
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^ev_[a-zA-Z0-9]+$",
+      "description": "Unique identifier (ULID)"
+    },
+    "platform_id": {
+      "type": "string",
+      "pattern": "^plat_[a-z0-9_]+$",
+      "description": "Reference to Platform"
+    },
+    "evidence_type": {
+      "type": "string",
+      "enum": [
+        "screenshot",
+        "video",
+        "pdf",
+        "html_snapshot",
+        "api_response",
+        "support_email",
+        "test_output",
+        "other"
+      ],
+      "description": "Type of evidence"
+    },
+    "file_name": {
+      "type": "string",
+      "description": "Original filename"
+    },
+    "storage_path": {
+      "type": "string",
+      "description": "Path in R2/cloud storage"
+    },
+    "storage_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Public or signed URL for access"
+    },
+    "mime_type": {
+      "type": "string",
+      "description": "MIME type of file"
+    },
+    "file_size_bytes": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "File size in bytes"
+    },
+    "file_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA256 hash of file contents"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 200,
+      "description": "Descriptive title"
+    },
+    "description": {
+      "type": ["string", "null"],
+      "maxLength": 1000,
+      "description": "What this evidence shows"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When evidence was captured"
+    },
+    "captured_by": {
+      "type": "string",
+      "format": "email",
+      "description": "Who captured the evidence"
+    },
+    "capture_context": {
+      "type": ["string", "null"],
+      "description": "Browser, OS, account type, etc."
+    },
+    "source_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "URL where evidence was captured from"
+    },
+    "ocr_text": {
+      "type": ["string", "null"],
+      "description": "Extracted text from screenshots"
+    },
+    "transcript": {
+      "type": ["string", "null"],
+      "description": "Transcript for video/audio"
+    },
+    "tags": {
+      "type": ["string", "null"],
+      "description": "Pipe-separated tags for search"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "superseded", "deleted"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,146 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://answerbank.example.com/schemas/answer.schema.json",
+  "title": "Answer",
+  "description": "A verified answer linking a platform to a capability question",
+  "type": "object",
+  "required": ["answer_id", "platform_id", "question_id", "answer_value", "confidence", "source_type", "version_specific", "created_by", "status"],
+  "properties": {
+    "answer_id": {
+      "type": "string",
+      "pattern": "^ans_[a-zA-Z0-9]+$",
+      "description": "Unique identifier (ULID)"
+    },
+    "platform_id": {
+      "type": "string",
+      "pattern": "^plat_[a-z0-9_]+$",
+      "description": "Reference to Platform"
+    },
+    "question_id": {
+      "type": "string",
+      "pattern": "^q_[a-z0-9_]+$",
+      "description": "Reference to CapabilityQuestion"
+    },
+    "answer_value": {
+      "type": "string",
+      "description": "The answer value (interpreted per question's expected_answer_type)"
+    },
+    "answer_normalized": {
+      "type": ["string", "null"],
+      "description": "Normalized/parsed value for programmatic use"
+    },
+    "answer_detail": {
+      "type": ["string", "null"],
+      "maxLength": 2000,
+      "description": "Extended explanation or context"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["confirmed", "likely", "uncertain", "unknown"],
+      "description": "Confidence level in the answer"
+    },
+    "evidence_ids": {
+      "type": ["string", "null"],
+      "description": "Pipe-separated evidence IDs supporting this answer"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "official_docs",
+        "support_response",
+        "manual_test",
+        "screenshot",
+        "video",
+        "api_response",
+        "inferred"
+      ],
+      "description": "Primary source type"
+    },
+    "source_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Direct URL to source"
+    },
+    "source_excerpt": {
+      "type": ["string", "null"],
+      "maxLength": 1000,
+      "description": "Relevant quote from source"
+    },
+    "caveats": {
+      "type": ["string", "null"],
+      "maxLength": 500,
+      "description": "Conditions, exceptions, limitations"
+    },
+    "version_specific": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this answer varies by platform version"
+    },
+    "version_min": {
+      "type": ["string", "null"],
+      "description": "Minimum platform version (if applicable)"
+    },
+    "version_max": {
+      "type": ["string", "null"],
+      "description": "Maximum platform version (if applicable)"
+    },
+    "verified_by": {
+      "type": ["string", "null"],
+      "format": "email",
+      "description": "Email of verifier"
+    },
+    "verified_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Verification timestamp"
+    },
+    "verification_method": {
+      "type": ["string", "null"],
+      "enum": ["doc_review", "manual_test", "api_test", "support_confirm", "screenshot_review", null],
+      "description": "How verification was performed"
+    },
+    "expires_at": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "When this answer should be re-verified"
+    },
+    "superseded_by": {
+      "type": ["string", "null"],
+      "pattern": "^ans_[a-zA-Z0-9]+$",
+      "description": "Reference to newer answer if superseded"
+    },
+    "created_by": {
+      "type": "string",
+      "format": "email",
+      "description": "Email of creator"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "row_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA256 hash of content fields"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "review", "verified", "expired", "superseded", "disputed"]
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "verified" } }
+      },
+      "then": {
+        "required": ["verified_by", "verified_at", "verification_method"]
+      }
+    }
+  ]
+}

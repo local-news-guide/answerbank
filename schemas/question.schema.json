@@ -1,0 +1,82 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://answerbank.example.com/schemas/question.schema.json",
+  "title": "CapabilityQuestion",
+  "description": "A standardized question about platform capabilities",
+  "type": "object",
+  "required": ["question_id", "category", "question_text", "question_short", "expected_answer_type", "applies_to_types", "importance", "status"],
+  "properties": {
+    "question_id": {
+      "type": "string",
+      "pattern": "^q_[a-z0-9_]+$",
+      "description": "Unique identifier for the question"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "api",
+        "bulk_operations",
+        "content_management",
+        "media",
+        "variables",
+        "webhooks",
+        "hosting",
+        "environments",
+        "integrations",
+        "limits",
+        "authentication",
+        "permissions",
+        "data_model",
+        "other"
+      ],
+      "description": "Capability category"
+    },
+    "subcategory": {
+      "type": ["string", "null"],
+      "description": "Further classification within category"
+    },
+    "question_text": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Full question text"
+    },
+    "question_short": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 100,
+      "description": "Short form for tables and quick reference"
+    },
+    "expected_answer_type": {
+      "type": "string",
+      "enum": ["boolean", "enum", "text", "number", "json", "url"],
+      "description": "Expected data type for answer"
+    },
+    "enum_options": {
+      "type": ["string", "null"],
+      "description": "Pipe-separated valid values if expected_answer_type is enum"
+    },
+    "applies_to_types": {
+      "type": "string",
+      "description": "Pipe-separated platform_types this question applies to"
+    },
+    "importance": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"],
+      "description": "Priority level for this capability"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "deprecated"]
+    }
+  },
+  "additionalProperties": false
+}
